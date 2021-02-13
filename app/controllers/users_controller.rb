@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
 
   # this is the sign up stuff
-def create
-  @user = User.create(user_params)
-
-  if @user.save
-    auth_token = Knock::AuthToken.new payload: { sub: @user.id }
-    render json: { username: @user.username, jwt: auth_token.token }, status: :created
-  else
-    render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
-  end 
-end
+  def create
+    @user = User.create(user_params)
+    if @user.save
+      auth_token = Knock::AuthToken.new payload: { sub: @user.id }
+      render json: { username: @user.username, jwt: auth_token.token }, status: :created
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
 
 # this is for signing in:
 def sign_in
@@ -40,6 +39,7 @@ end
 
 private
 
+# when adding in AWS will have have to add avatar back here or figure out how we will include this feature 
 def user_params
   params.require(:user).permit(:username, :email, :password, :password_confirmation, :about_me)
 end
