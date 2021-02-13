@@ -41,7 +41,7 @@ private
 
 # when adding in AWS will have have to add avatar back here or figure out how we will include this feature 
 def user_params
-  params.require(:user).permit(:username, :email, :password, :password_confirmation, :about_me)
+  params.require(:user).permit(:username, :email, :password, :about_me)
 end
 
 end
