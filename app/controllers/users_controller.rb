@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   # this is the sign up stuff
 def create
-  @user = User.new(user_params)
+  @user = User.create(user_params)
 
   if @user.save
     auth_token = Knock::AuthToken.new payload: { sub: @user.id }
@@ -41,7 +41,7 @@ end
 private
 
 def user_params
-  params.require(:user).permit(:username, :email, :password, :password_confirmation, :about_me, :avatar)
+  params.require(:user).permit(:username, :email, :password, :password_confirmation, :about_me)
 end
 
 end
