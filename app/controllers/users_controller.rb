@@ -29,6 +29,7 @@ def show
   render json: @user
 end 
 
+# users can use this logic to update their profile
 def update
   if @user.update(user_params)
     render status: :ok
