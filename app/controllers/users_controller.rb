@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update]
+   before_action :set_user, only: [:show, :update]
 
   # this is the sign up stuff
   def create
     @user = User.new(user_params)
     if @user.save
       auth_token = Knock::AuthToken.new payload: { sub: @user.id }
-      render json: { username: @user.username, jwt: auth_token.token, moderator: !!@user.moderator }, status: :created
+      render json: { username: @user.username, jwt: auth_token.token }, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -15,10 +15,9 @@ class UsersController < ApplicationController
 # this is for signing in:
 def sign_in
   @user = User.find_by_email(params[:auth][:email])
-  
   if @user && @user.authenticate(params[:auth][:password])
     auth_token = Knock::AuthToken.new payload: { sub: @user.id }
-    render json: { username: @user.username, jwt: auth_token.token }, status: 200
+    render json: { username: @user.username, jwt: auth_token.token, moderator: !!@user.moderator }, status: 200
   else 
     render json: { error: 'incorrect details entered' }, status: 404
   end
