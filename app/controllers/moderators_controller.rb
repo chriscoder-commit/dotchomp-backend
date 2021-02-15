@@ -1,3 +1,3 @@
 class ModeratorsController < ApplicationController
-    efore_action :authorize_user
+    before_action :authorize_user
 end
