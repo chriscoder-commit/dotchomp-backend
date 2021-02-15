@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :update]
 
   # this is the sign up stuff
   def create
@@ -40,6 +41,10 @@ end
 
 private
 
+# finding the user for update and show
+def set_user
+  @user = User.find(params[:id])
+end
 # when adding in AWS will have have to add avatar back here or figure out how we will include this feature 
 def user_params
   params.require(:user).permit(:username, :email, :password, :password_confirmation, :about_me, :avatar)
