@@ -1,5 +1,7 @@
 class StatusController < ApplicationController
+before_action :authenticate_user
+
 def index
-    render status: :ok
-    end
+    render json: { moderator: current_user.moderator }
+end
 end
