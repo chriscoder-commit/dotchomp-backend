@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     get '/profile/:id', to: 'users#show'
     put '/update-profile/:id', to: 'users#update'
   end
+  get "/status", to: "status#index"
 end
