@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+   before_action :set_user, only: [:show, :update]
 
   # this is the sign up stuff
   def create
@@ -14,10 +15,9 @@ class UsersController < ApplicationController
 # this is for signing in:
 def sign_in
   @user = User.find_by_email(params[:auth][:email])
-  
   if @user && @user.authenticate(params[:auth][:password])
     auth_token = Knock::AuthToken.new payload: { sub: @user.id }
-    render json: { username: @user.username, jwt: auth_token.token }, status: 200
+    render json: { username: @user.username, jwt: auth_token.token, moderator: !!@user.moderator }, status: 200
   else 
     render json: { error: 'incorrect details entered' }, status: 404
   end
@@ -40,6 +40,10 @@ end
 
 private
 
+# finding the user for update and show
+def set_user
+  @user = User.find(params[:id])
+end
 # when adding in AWS will have have to add avatar back here or figure out how we will include this feature 
 def user_params
   params.require(:user).permit(:username, :email, :password, :password_confirmation, :about_me, :avatar)
