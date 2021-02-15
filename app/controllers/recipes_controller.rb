@@ -1,4 +1,5 @@
 class RecipesController < ApplicationController
+  # before_action :set_recipe, only: [:update]
 
   def index
     @recipes = Recipes.all
@@ -27,6 +28,10 @@ class RecipesController < ApplicationController
   end 
 
   private
+
+  def set_recipe
+    @recipe = Recipe.find(params[:id])
+  end 
 
   def recipe_params
     params.require(:recipe).permit(:ingredients, :cuisine, :prep_time, :cook_time, :serves, :photo)
