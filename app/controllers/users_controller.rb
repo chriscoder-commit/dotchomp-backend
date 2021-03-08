@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     end
   end
 
-# this is for signing in:
+# this is for signing in: :)
 def sign_in
   @user = User.find_by_email(params[:auth][:email])
   if @user && @user.authenticate(params[:auth][:password])
